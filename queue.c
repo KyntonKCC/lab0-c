@@ -26,11 +26,8 @@ void q_free(struct list_head *head)
     if (!head)
         return;
     element_t *entry, *safe;
-    list_for_each_entry_safe (entry, safe, head, list) {
-        list_del(&entry->list);  // delete current node from list
-        free(entry->value);      // free the deleted node
-        free(entry);             // free the deleted node
-    }
+    list_for_each_entry_safe (entry, safe, head, list)
+        q_release_element(entry);
     free(head);
 }
 
