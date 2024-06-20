@@ -39,13 +39,11 @@ bool q_insert_head(struct list_head *head, char *s)
     element_t *new_element = malloc(sizeof(*new_element));
     if (!new_element)  // If allocate failed
         return false;
-    size_t len = strlen(s) + 1;  // plus 1 for `\0`
-    new_element->value = malloc(len * sizeof(char));
+    new_element->value = strdup(s);
     if (!new_element->value) {  // If allocate failed
         q_release_element(new_element);
         return false;
     }
-    strncpy(new_element->value, s, len);
     list_add(&new_element->list, head);
     return true;
 }
@@ -58,13 +56,11 @@ bool q_insert_tail(struct list_head *head, char *s)
     element_t *new_element = malloc(sizeof(*new_element));
     if (!new_element)  // If allocate failed
         return false;
-    size_t len = strlen(s) + 1;  // plus 1 for `\0`
-    new_element->value = malloc(len * sizeof(char));
+    new_element->value = strdup(s);
     if (!new_element->value) {  // If allocate failed
         q_release_element(new_element);
         return false;
     }
-    strncpy(new_element->value, s, len);
     list_add_tail(&new_element->list, head);
     return true;
 }
