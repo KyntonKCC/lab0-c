@@ -53,16 +53,7 @@ bool q_insert_tail(struct list_head *head, char *s)
 {
     if (!head)
         return false;
-    element_t *new_element = malloc(sizeof(*new_element));
-    if (!new_element)  // If allocate failed
-        return false;
-    new_element->value = strdup(s);
-    if (!new_element->value) {  // If allocate failed
-        q_release_element(new_element);
-        return false;
-    }
-    list_add_tail(&new_element->list, head);
-    return true;
+    return q_insert_head(head->prev, s);
 }
 
 /* Remove an element from head of queue */
