@@ -221,7 +221,20 @@ void q_sort(struct list_head *head, bool descend)
 int q_ascend(struct list_head *head)
 {
     // https://leetcode.com/problems/remove-nodes-from-linked-list/
-    return 0;
+    if (!head || list_empty(head) || list_is_singular(head))
+        return 0;
+    q_reverse(head);
+    element_t *entry, *safe, *limit = list_entry(head->next, element_t, list);
+    list_for_each_entry_safe (entry, safe, head, list) {
+        if (strcmp(entry->value, limit->value) > 0) {
+            list_del_init(&entry->list);
+            q_release_element(entry);
+        } else {
+            limit = entry;
+        }
+    }
+    q_reverse(head);
+    return q_size(head);
 }
 
 /* Remove every node which has a node with a strictly greater value anywhere to
@@ -229,7 +242,20 @@ int q_ascend(struct list_head *head)
 int q_descend(struct list_head *head)
 {
     // https://leetcode.com/problems/remove-nodes-from-linked-list/
-    return 0;
+    if (!head || list_empty(head) || list_is_singular(head))
+        return 0;
+    q_reverse(head);
+    element_t *entry, *safe, *limit = list_entry(head->next, element_t, list);
+    list_for_each_entry_safe (entry, safe, head, list) {
+        if (strcmp(entry->value, limit->value) < 0) {
+            list_del_init(&entry->list);
+            q_release_element(entry);
+        } else {
+            limit = entry;
+        }
+    }
+    q_reverse(head);
+    return q_size(head);
 }
 
 /* Merge all the queues into one sorted queue, which is in ascending/descending
